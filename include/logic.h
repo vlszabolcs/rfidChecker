@@ -1,6 +1,26 @@
 #include <NTPClient.h>
 #include <WiFiUdp.h>
 
+/*00 purchase
+  01 faild purchase
+  
+  10 modify credit
+  11 modify loan
+  12 modify name
+
+  20 add user
+  21 remove user
+  
+  30 machine busy
+  31 machine ready
+  
+  40 modify conf free 
+  41 modify conf price
+  42 modify conf loan
+  43 modify conf loanMax
+  */
+  
+
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
@@ -9,7 +29,8 @@ bool getUserData(String uid);
 void updateUserData(String uid);
 void dispUserData();
 void successPurchase();
-void logUserAction(String userId, String action, int remainingCredit);
+void disMachineBusy();
+void logUserAction(String userId, int action, int remainingCredit);
 
 int minus(int credit, int price, int loanMax, bool loan)
 {
@@ -22,10 +43,6 @@ int minus(int credit, int price, int loanMax, bool loan)
   {
     credit -= price;
     return credit;
-  }
-  else
-  {
-    return credit; // megoldani hogy itt ne térjen vissza semmivel
   }
 }
 
@@ -44,9 +61,9 @@ void mainfunc()
         userData.time = timeClient.getEpochTime();
         updateUserData(userData.uid);
 
-        logUserAction(userData.uid, "purchase", userData.credit);
+        logUserAction(userData.uid, 0, userData.credit);
 
-        if (!digitalRead(mIN)){
+        if (!digitalRead(mIN)){ //func 
           digitalWrite(mOut, 0);
           delay(50);
           digitalWrite(mOut, 1);
@@ -61,13 +78,13 @@ void mainfunc()
     }
   } else{
 
-      Serial.println("Machine is busy");
+      disMachineBusy();
       if (cardUID != "")
       {
-        if (getUserData(cardUID))
+        /*if (getUserData(cardUID))
         {
           dispUserData();
-        }
+        }*/
       }
     }
 }
