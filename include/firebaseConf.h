@@ -196,18 +196,14 @@ void updateUserData(String userId) {
     }
 }
 
-void logUserAction(String userId, String action, int remainingCredit) {
+void logUserAction(String userId, int action, int remainingCredit) {
   // Get the current timestamp
   time_t now = timeClient.getEpochTime();
   struct tm* timeinfo = localtime(&now);
-  int year = timeinfo->tm_year + 1900; // tm_year is years since 1900
   String timestamp = String(now);
-  Serial.print("Timestamp: ");
-  Serial.println(year);
   // Create the log path with the current year
   String path = logPath;
-  path+= String(year)  ;
-  path+="/";
+ 
   path+=timestamp;
   
 
