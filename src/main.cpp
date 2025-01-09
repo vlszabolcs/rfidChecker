@@ -12,7 +12,7 @@ void setup(void){
   Serial.begin(115200);
   SPI.begin();
   displayConfig();
-  readConfigFromSD();
+  //readConfigFromSD();
   wifiConfig();
   ntpConf();
 
