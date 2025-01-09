@@ -29,6 +29,8 @@ int minus(int credit, int price, int loanMax, bool loan)
   }
 }
 
+
+
 void mainfunc()
 {
   String cardUID = getUID();
@@ -48,13 +50,18 @@ void mainfunc()
           digitalWrite(mOut, 0);
           delay(50);
           digitalWrite(mOut, 1);
+          delay(50);
+          digitalWrite(mOut, 0);
+          delay(50);
+          digitalWrite(mOut, 1);
           successPurchase();
           // Buzz here
         }
       }
     }
   } else{
-      Serial.println("Machine Error");
+
+      Serial.println("Machine is busy");
       if (cardUID != "")
       {
         if (getUserData(cardUID))
