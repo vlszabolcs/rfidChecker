@@ -23,23 +23,27 @@ void dispUserData(){
  
 }
 
+void disMachineBusy(){
+  Serial.println("Machine is busy");
+  u8x8.clearDisplay();
+  u8x8.setCursor(0,0);
+  u8x8.println("A gép elfoglalt");
+}
+
 void successPurchase(){
   Serial.print("Credit: ");
   Serial.println(userData.credit);
   u8x8.clearDisplay();
   u8x8.setCursor(0,0);
-  u8x8.print("Current Credit: ");
+  u8x8.println("Egyenleged: ");
   u8x8.println(userData.credit);
 
   Serial.print("Name: ");
   Serial.println( userData.name);
-  u8x8.println( userData.name);
 
-  
   Serial.print("Last Update (timestamp): ");
   Serial.println(userData.time);
-  u8x8.print("time: ");
-  u8x8.println(userData.time);
+
  
 }
 
