@@ -35,8 +35,18 @@ void successPurchase(){
   Serial.println(userData.credit);
   u8x8.clearDisplay();
   u8x8.setCursor(0,0);
-  u8x8.println("Egyenleged: ");
-  u8x8.println(userData.credit);
+  u8x8.setFont(u8x8_font_open_iconic_check_8x8);
+  u8x8.drawGlyph(4, 0, 'A'); // Replace 'A' with the appropriate character code for the glyph
+  delay(500);
+  u8x8.clearDisplay();
+   u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(0,0);
+  u8x8.println("Egyenleg:");
+  u8x8.setFont(u8x8_font_profont29_2x3_f);
+  u8x8.setCursor(1,3);
+  u8x8.print(userData.credit);
+  u8x8.println(" Ft");
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
 
   Serial.print("Name: ");
   Serial.println( userData.name);
@@ -44,7 +54,18 @@ void successPurchase(){
   Serial.print("Last Update (timestamp): ");
   Serial.println(userData.time);
 
- 
+}
+
+void finishedPurchase(){
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(0,0);
+  u8x8.println("Válassz kávét!");
+  u8x8.setFont(u8x8_font_open_iconic_arrow_8x8);
+  u8x8.drawGlyph(2, 0, 'A'); // Replace 'A' with the appropriate character code for the glyph
+
+  Serial.println("Felhasználóra várakozik");
+
 }
 
 void displayConfig(void)

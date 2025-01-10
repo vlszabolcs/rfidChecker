@@ -30,6 +30,7 @@ void updateUserData(String uid);
 void dispUserData();
 void successPurchase();
 void disMachineBusy();
+void finishedPurchase();
 void logUserAction(String userId, int action, int remainingCredit);
 
 int minus(int credit, int price, int loanMax, bool loan)
@@ -42,6 +43,8 @@ int minus(int credit, int price, int loanMax, bool loan)
   else if (loan && credit > loanMax)
   {
     credit -= price;
+    return credit;
+  }else{
     return credit;
   }
 }
@@ -71,14 +74,16 @@ void mainfunc()
           digitalWrite(mOut, 0);
           delay(50);
           digitalWrite(mOut, 1);
+   
           successPurchase();
+          
           // Buzz here
         }
       }
     }
   } else{
-
-      disMachineBusy();
+      finishedPurchase();
+      //disMachineBusy();
       if (cardUID != "")
       {
         /*if (getUserData(cardUID))

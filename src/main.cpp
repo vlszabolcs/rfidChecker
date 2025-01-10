@@ -21,10 +21,6 @@ void setup(void){
   pinMode(buzzer,OUTPUT);
   digitalWrite(mOut,1);
   digitalWrite(buzzer,0);
-  
-  u8x8.clearDisplay();
-  u8x8.setCursor(0,0);
-  u8x8.println("Fasz");
 
   firebaseConfig();
   rfidConfig();
