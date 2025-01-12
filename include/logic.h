@@ -3,23 +3,22 @@
 
 /*00 purchase
   01 faild purchase
-  
+
   10 modify credit
   11 modify loan
   12 modify name
 
   20 add user
   21 remove user
-  
+
   30 machine busy
   31 machine ready
-  
-  40 modify conf free 
+
+  40 modify conf free
   41 modify conf price
   42 modify conf loan
   43 modify conf loanMax
   */
-  
 
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
@@ -33,63 +32,76 @@ void disMachineBusy();
 void finishedPurchase();
 void logUserAction(String userId, int action, int remainingCredit);
 
-int minus(int credit, int price, int loanMax, bool loan)
+bool minus(int credit, int price, int loanMax, bool loan)
 {
-  if (credit > 0)
+  if (!(credit >= price))
   {
-    credit -= price;
-    return credit;
+    if (!(loan && credit > loanMax))
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
   }
-  else if (loan && credit > loanMax)
+  else
   {
-    credit -= price;
-    return credit;
-  }else{
-    return credit;
+    return true;
   }
 }
-
-
 
 void mainfunc()
 {
   String cardUID = getUID();
-  if (!digitalRead(mIN)){
-    if (cardUID != ""){
-      if (getUserData(cardUID)){
-        userData.credit = minus(userData.credit, price, loanMax, userData.loan);
-        timeClient.update();
-        // int time = timeClient.getEpochTime();
-        Serial.println(timeClient.getEpochTime());
-        userData.time = timeClient.getEpochTime();
-        updateUserData(userData.uid);
+  if (!digitalRead(mIN))
+  {
+    if (cardUID != "")
+    {
+      if (getUserData(cardUID))
+      {
+        if (minus(userData.credit, price, loanMax, userData.loan))
+        {
 
-        logUserAction(userData.uid, 0, userData.credit);
+          userData.credit -= price;
+          timeClient.update();
+          userData.time = timeClient.getEpochTime();
+          updateUserData(userData.uid);
 
-        if (!digitalRead(mIN)){ //func 
-          digitalWrite(mOut, 0);
-          delay(50);
-          digitalWrite(mOut, 1);
-          delay(50);
-          digitalWrite(mOut, 0);
-          delay(50);
-          digitalWrite(mOut, 1);
-   
-          successPurchase();
-          
-          // Buzz here
+          logUserAction(userData.uid, 0, userData.credit);
+
+          if (!digitalRead(mIN))
+          { // make function, remove delays
+            digitalWrite(mOut, 0);
+            delay(50);
+            digitalWrite(mOut, 1);
+            delay(50);
+            digitalWrite(mOut, 0);
+            delay(50);
+            digitalWrite(mOut, 1);
+
+            // Buzz here
+
+            successPurchase();
+          }
+        }
+        else
+        {
+          // nincs elég kredit
         }
       }
     }
-  } else{
-      finishedPurchase();
-      //disMachineBusy();
-      if (cardUID != "")
+  }
+  else
+  {
+    finishedPurchase();
+    // disMachineBusy(); // learn how the machine works and how to handle the inhibit
+    if (cardUID != "")
+    {
+      /*if (getUserData(cardUID))
       {
-        /*if (getUserData(cardUID))
-        {
-          dispUserData();
-        }*/
-      }
+        dispUserData();
+      }*/
     }
+  }
 }
