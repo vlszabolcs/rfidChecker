@@ -55,6 +55,18 @@ void successPurchase(){
   Serial.println(userData.time);
 
 }
+void faildPurchase(){
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(0,0);
+  u8x8.println("Nincs kredit: ");
+  u8x8.println(userData.credit);
+  
+
+  Serial.println("Felhasználóra várakozik");
+
+}
+
 
 void finishedPurchase(){
   u8x8.clearDisplay();

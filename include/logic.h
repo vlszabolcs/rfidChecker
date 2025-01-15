@@ -30,6 +30,7 @@ void dispUserData();
 void successPurchase();
 void disMachineBusy();
 void finishedPurchase();
+void faildPurchase();
 void logUserAction(String userId, int action, int remainingCredit);
 
 bool minus(int credit, int price, int loanMax, bool loan)
@@ -87,7 +88,9 @@ void mainfunc()
         }
         else
         {
-          // nincs elég kredit
+          faildPurchase();
+          Serial.println("Nincs kredit");
+          delay(1000);
         }
       }
     }
