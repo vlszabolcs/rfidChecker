@@ -7,12 +7,11 @@
 #include <rfidConf.h>
 #include <wifiConf.h>
 #include <firebaseConf.h>
+#include <buzzer.h>
 
 void setup(void){
   Serial.begin(115200);
-  SPI.begin();
   displayConfig();
-  //readConfigFromSD();
   wifiConfig();
   ntpConf();
 
@@ -23,6 +22,8 @@ void setup(void){
   digitalWrite(buzzer,0);
 
   firebaseConfig();
+
+  SPI.begin();
   rfidConfig();
 }
 
@@ -31,7 +32,7 @@ void loop(void){
     Serial.print("Stream olvasási hiba: ");
     Serial.println(fbdo.errorReason());
   }*/
-
+  //beep();
   if(WiFi.getAutoReconnect()){
       mainfunc();
   }else{
