@@ -84,6 +84,7 @@ void mainfunc()
             // Buzz here
 
             successPurchase();
+            delay(3000);
           }
         }
         else
