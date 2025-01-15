@@ -2,7 +2,7 @@
 
 #define mOut 25
 #define mIN 34
-#define buzzer 26
+#define buzzer 27
 
 struct {
   String name;
