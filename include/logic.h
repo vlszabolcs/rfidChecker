@@ -28,6 +28,7 @@ bool getUserData(String uid);
 void updateUserData(String uid);
 void dispUserData();
 void successPurchase();
+void checkSign();
 void disMachineBusy();
 void finishedPurchase();
 void faildPurchase();
@@ -52,6 +53,17 @@ bool minus(int credit, int price, int loanMax, bool loan)
   }
 }
 
+void writeCredit()
+{
+  digitalWrite(mOut, 0);
+  delay(50);
+  digitalWrite(mOut, 1);
+  delay(50);
+  digitalWrite(mOut, 0);
+  delay(50);
+  digitalWrite(mOut, 1);
+}
+
 void mainfunc()
 {
   String cardUID = getUID();
@@ -63,7 +75,6 @@ void mainfunc()
       {
         if (minus(userData.credit, price, loanMax, userData.loan))
         {
-
           userData.credit -= price;
           timeClient.update();
           userData.time = timeClient.getEpochTime();
@@ -72,17 +83,10 @@ void mainfunc()
           logUserAction(userData.uid, 0, userData.credit);
 
           if (!digitalRead(mIN))
-          { // make function, remove delays
-            digitalWrite(mOut, 0);
-            delay(50);
-            digitalWrite(mOut, 1);
-            delay(50);
-            digitalWrite(mOut, 0);
-            delay(50);
-            digitalWrite(mOut, 1);
-
-            // Buzz here
-
+          {
+            writeCredit();
+            checkSign();
+            delay(500);
             successPurchase();
             delay(3000);
           }
@@ -90,7 +94,7 @@ void mainfunc()
         else
         {
           faildPurchase();
-          Serial.println("Nincs kredit");
+          logUserAction(userData.uid, 1, userData.credit);
           delay(1000);
         }
       }

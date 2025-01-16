@@ -35,12 +35,15 @@ void loop(void)
      Serial.println(fbdo.errorReason());
    }*/
   // beep();
-  if (WiFi.getAutoReconnect())
+  if (wifiMulti.run() != WL_CONNECTED)
   {
     mainfunc();
   }
   else
   {
     Serial.println("WiFi connection error");
+    Serial.println("Reconnecting...");
+
+    reconnectWIFI();
   }
 }

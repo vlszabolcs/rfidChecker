@@ -30,16 +30,18 @@ void disMachineBusy(){
   u8x8.println("A gép elfoglalt");
 }
 
-void successPurchase(){
+void checkSign(){
   Serial.print("Credit: ");
   Serial.println(userData.credit);
   u8x8.clearDisplay();
   u8x8.setCursor(0,0);
   u8x8.setFont(u8x8_font_open_iconic_check_8x8);
   u8x8.drawGlyph(4, 0, 'A'); // Replace 'A' with the appropriate character code for the glyph
-  delay(500);
+}
+
+void successPurchase(){
   u8x8.clearDisplay();
-   u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(0,0);
   u8x8.println("Egyenleg:");
   u8x8.setFont(u8x8_font_profont29_2x3_f);
@@ -53,7 +55,7 @@ void successPurchase(){
 
   Serial.print("Last Update (timestamp): ");
   Serial.println(userData.time);
-
+  
 }
 void faildPurchase(){
   u8x8.clearDisplay();
@@ -61,10 +63,7 @@ void faildPurchase(){
   u8x8.setCursor(0,0);
   u8x8.println("Nincs kredit: ");
   u8x8.println(userData.credit);
-  
-
-  Serial.println("Felhasználóra várakozik");
-
+  Serial.println("Nincs kredit");
 }
 
 
@@ -77,13 +76,18 @@ void finishedPurchase(){
   u8x8.drawGlyph(2, 0, 'A'); // Replace 'A' with the appropriate character code for the glyph
 
   Serial.println("Felhasználóra várakozik");
+}
 
+void reconnectWIFI(){
+  u8x8.clearDisplay();
+  u8x8.setCursor(0,0);
+  u8x8.println("WiFi connection error");
+  u8x8.println("Reconnecting...");
 }
 
 void displayConfig(void)
 {
   u8x8.begin();
   u8x8.setPowerSave(0);
-  u8x8.setFont(u8x8_font_chroma48medium8_r);
-  
+  u8x8.setFont(u8x8_font_chroma48medium8_r); 
 }

@@ -28,15 +28,22 @@ void wifiConfig(){
   // Connect to Wi-Fi using wifiMulti (connects to the SSID with strongest connection)
   Serial.println("Connecting Wifi...");
   u8x8.println("Connecting Wifi...");
+  
   if(wifiMulti.run() == WL_CONNECTED) {
     Serial.println("");
     Serial.println("WiFi connected");
-    u8x8.println("WiFi connected");
-    Serial.println("IP address: ");
-    u8x8.println("IP address: ");
+    Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
+    Serial.print("RSSI: ");
+    Serial.println(WiFi.RSSI());
+
+    u8x8.println("WiFi connected");
+    u8x8.println("IP address: ");
     u8x8.println(WiFi.localIP());
     u8x8.println(WiFi.SSID());
+    u8x8.print("RSSI: ");
+    u8x8.println(WiFi.RSSI());
+    
     u8x8.refreshDisplay();
   }
 }
