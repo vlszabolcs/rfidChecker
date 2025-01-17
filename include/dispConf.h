@@ -78,7 +78,7 @@ void finishedPurchase(){
   Serial.println("Felhasználóra várakozik");
 }
 
-void reconnectWIFI(){
+void reconnectWIFIDisp(){
   u8x8.clearDisplay();
   u8x8.setCursor(0,0);
   u8x8.println("WiFi connection error");

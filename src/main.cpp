@@ -9,6 +9,8 @@
 #include <firebaseConf.h>
 #include <buzzer.h>
 
+
+
 void setup(void)
 {
   Serial.begin(115200);
@@ -35,7 +37,7 @@ void loop(void)
      Serial.println(fbdo.errorReason());
    }*/
   // beep();
-  if (wifiMulti.run() != WL_CONNECTED)
+  if (wifiMulti.run() == WL_CONNECTED)
   {
     mainfunc();
   }
@@ -44,6 +46,6 @@ void loop(void)
     Serial.println("WiFi connection error");
     Serial.println("Reconnecting...");
 
-    reconnectWIFI();
+    reconnectWIFIDisp();
   }
 }
