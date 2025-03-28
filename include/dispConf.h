@@ -67,15 +67,25 @@ void faildPurchase(){
 }
 
 
-void finishedPurchase(){
+void waitingPurchase(){
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(4,0);
+  u8x8.println("Fizess!");
+  timeClient.update();
+  u8x8.clearLine(1);
+  u8x8.setCursor(5,1);
+  u8x8.print(timeClient.getFormattedTime());
+  
+}
+
+void inProgress(){
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(0,0);
-  u8x8.println("Válassz kávét!");
-  u8x8.setFont(u8x8_font_open_iconic_arrow_8x8);
-  u8x8.drawGlyph(2, 0, 'A'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.println("Kávé főzés");
 
-  Serial.println("Felhasználóra várakozik");
+  Serial.println("Kávé főzés alatt");
 }
 
 void reconnectWIFIDisp(){

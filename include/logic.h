@@ -23,14 +23,18 @@
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
 
+static unsigned long previousMillis = 0; // Store the last time the function was called
+const unsigned long interval = 1000;    // 1-second interval
+
 String getUID();
 bool getUserData(String uid);
 void updateUserData(String uid);
 void dispUserData();
+void inProgress();
 void successPurchase();
 void checkSign();
 void disMachineBusy();
-void finishedPurchase();
+void waitingPurchase();
 void faildPurchase();
 void logUserAction(String userId, int action, int remainingCredit);
 
@@ -66,6 +70,13 @@ void writeCredit()
 
 void mainfunc()
 {
+  if (millis() - previousMillis >= interval)
+  {
+    previousMillis = millis(); // Update the last time
+    waitingPurchase();
+    Serial.println("Felhasználóra várakozik");
+  }
+  
   String cardUID = getUID();
   if (!digitalRead(mIN))
   {
@@ -89,6 +100,7 @@ void mainfunc()
             delay(500);
             successPurchase();
             delay(3000);
+            
           }
         }
         else
@@ -100,7 +112,7 @@ void mainfunc()
       }
     }
   }
-  else
+  /*else
   {
     finishedPurchase();
     // disMachineBusy(); // learn how the machine works and how to handle the inhibit
@@ -109,7 +121,7 @@ void mainfunc()
       /*if (getUserData(cardUID))
       {
         dispUserData();
-      }*/
+      }
     }
-  }
+  }*/
 }
