@@ -1,18 +1,20 @@
 #include <Arduino.h>
 
-#define mOut 25
-#define mIN 34
-#define buzzer 27
+uint8_t mOut = 25;
+uint8_t mIN = 34;
+uint8_t buzzer = 27;
 
-struct {
+struct
+{
   String name;
   String uid;
   bool loan;
   int credit;
   int time;
-}userData; 
+} userData;
 
+int price = 100;
+int loanMax = -500;
 
-int price = 100; 
-bool test = false;
-int loanMax= -500;
+bool wifiStatus = false;
+String usedSSID = "";
