@@ -9,8 +9,6 @@
 #include <firebaseConf.h>
 #include <buzzer.h>
 
-
-
 void setup(void)
 {
   Serial.begin(115200);
@@ -37,7 +35,10 @@ void loop(void)
      Serial.println(fbdo.errorReason());
    }*/
   // beep();
-  if (wifiMulti.run() == WL_CONNECTED)
+
+  wifiStatus = wifiMulti.run() == WL_CONNECTED;
+  usedSSID = WiFi.SSID();
+  if (wifiStatus)
   {
     mainfunc();
   }

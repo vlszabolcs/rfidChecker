@@ -21,40 +21,24 @@
   */
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 3600, 60000);
-
-static unsigned long previousMillis = 0; // Store the last time the function was called
-const unsigned long interval = 1000;    // 1-second interval
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 7200, 60000);
 
 String getUID();
 bool getUserData(String uid);
 void updateUserData(String uid);
-void dispUserData();
-void inProgress();
 void successPurchase();
 void checkSign();
-void disMachineBusy();
 void waitingPurchase();
 void faildPurchase();
+void mainDisp();
 void logUserAction(String userId, int action, int remainingCredit);
+
+
+bool flagMain=true;
 
 bool minus(int credit, int price, int loanMax, bool loan)
 {
-  if (!(credit >= price))
-  {
-    if (!(loan && credit > loanMax))
-    {
-      return false;
-    }
-    else
-    {
-      return true;
-    }
-  }
-  else
-  {
-    return true;
-  }
+  return (credit >= price) || (loan && credit > loanMax);
 }
 
 void writeCredit()
@@ -70,58 +54,56 @@ void writeCredit()
 
 void mainfunc()
 {
-  if (millis() - previousMillis >= interval)
+  waitingPurchase();
+
+  String cardUID = getUID();
+
+  if (!digitalRead(mIN) && !cardUID.isEmpty())
   {
-    previousMillis = millis(); // Update the last time
-    waitingPurchase();
-    Serial.println("Felhasználóra várakozik");
+    if (getUserData(cardUID))
+    {
+      if (minus(userData.credit, price, loanMax, userData.loan))
+      {
+        userData.credit -= price;
+        timeClient.update();
+        userData.time = timeClient.getEpochTime();
+        updateUserData(userData.uid);
+        logUserAction(userData.uid, 0, userData.credit);
+        bool flag =true;
+
+        if (!digitalRead(mIN))
+        {
+          writeCredit();
+          checkSign();
+          delay(500);
+          while (digitalRead(mIN))
+          {
+            if (flag){
+              successPurchase();
+              flag=false;
+            }
+          }
+          
+        }
+        flagMain = true;
+      }
+      else
+      {
+        faildPurchase();
+        logUserAction(userData.uid, 1, userData.credit);
+        flagMain = true;
+        delay(1000);
+      }
+    }
+  }else
+  {
+    if (flagMain)
+    {
+      Serial.println("Waiting for card...");
+      mainDisp();
+      flagMain = false;
+    }
+    
   }
   
-  String cardUID = getUID();
-  if (!digitalRead(mIN))
-  {
-    if (cardUID != "")
-    {
-      if (getUserData(cardUID))
-      {
-        if (minus(userData.credit, price, loanMax, userData.loan))
-        {
-          userData.credit -= price;
-          timeClient.update();
-          userData.time = timeClient.getEpochTime();
-          updateUserData(userData.uid);
-
-          logUserAction(userData.uid, 0, userData.credit);
-
-          if (!digitalRead(mIN))
-          {
-            writeCredit();
-            checkSign();
-            delay(500);
-            successPurchase();
-            delay(3000);
-            
-          }
-        }
-        else
-        {
-          faildPurchase();
-          logUserAction(userData.uid, 1, userData.credit);
-          delay(1000);
-        }
-      }
-    }
-  }
-  /*else
-  {
-    finishedPurchase();
-    // disMachineBusy(); // learn how the machine works and how to handle the inhibit
-    if (cardUID != "")
-    {
-      /*if (getUserData(cardUID))
-      {
-        dispUserData();
-      }
-    }
-  }*/
 }
