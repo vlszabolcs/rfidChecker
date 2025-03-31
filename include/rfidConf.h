@@ -31,6 +31,7 @@ String getUID() {
 
   uid.toUpperCase(); // Convert to uppercase
   rfid.PICC_HaltA(); // Halt the card
+  checkSign();
   return uid;
 }
 
