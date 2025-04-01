@@ -22,7 +22,7 @@ void wifiConfig()
   // Add list of wifi networks
   wifiMulti.addAP(ssid1, pw1);
   wifiMulti.addAP(ssid2, pw2);
-  wifiMulti.addAP(ssid3, pw3);
+  ///wifiMulti.addAP(ssid3, pw3);
 
   // Connect to Wi-Fi using wifiMulti (connects to the SSID with strongest connection)
   Serial.println("Connecting Wifi...");
