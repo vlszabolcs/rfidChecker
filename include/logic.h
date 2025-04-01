@@ -29,12 +29,11 @@ void updateUserData(String uid);
 void successPurchase();
 void checkSign();
 void waitingPurchase();
-void faildPurchase();
+void faildPurchase(); 
 void mainDisp();
 void logUserAction(String userId, int action, int remainingCredit);
 
-
-bool flagMain=true;
+bool flagMain = true;
 
 bool minus(int credit, int price, int loanMax, bool loan)
 {
@@ -54,9 +53,16 @@ void writeCredit()
 
 void mainfunc()
 {
-  waitingPurchase();
-
   String cardUID = getUID();
+
+  if (flagMain)
+  {
+    Serial.println("Waiting for card...");
+    mainDisp();
+    flagMain = false;
+  }
+
+  waitingPurchase();
 
   if (!digitalRead(mIN) && !cardUID.isEmpty())
   {
@@ -69,7 +75,7 @@ void mainfunc()
         userData.time = timeClient.getEpochTime();
         updateUserData(userData.uid);
         logUserAction(userData.uid, 0, userData.credit);
-        bool flag =true;
+        bool flag = true;
 
         if (!digitalRead(mIN))
         {
@@ -77,12 +83,12 @@ void mainfunc()
           delay(100);
           while (digitalRead(mIN))
           {
-            if (flag){
+            if (flag)
+            {
               successPurchase();
-              flag=false;
+              flag = false;
             }
           }
-          
         }
         flagMain = true;
       }
@@ -94,15 +100,10 @@ void mainfunc()
         delay(1000);
       }
     }
-  }else
-  {
-    if (flagMain)
+    else
     {
-      Serial.println("Waiting for card...");
-      mainDisp();
-      flagMain = false;
+      flagMain = true;
     }
-    
   }
   
 }
