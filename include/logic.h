@@ -74,8 +74,7 @@ void mainfunc()
         if (!digitalRead(mIN))
         {
           writeCredit();
-          checkSign();
-          delay(500);
+          delay(100);
           while (digitalRead(mIN))
           {
             if (flag){
