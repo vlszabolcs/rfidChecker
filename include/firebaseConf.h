@@ -55,7 +55,7 @@ bool getUserData(String userId)
   userData.uid = userId;
 
   Serial.printf("Adatok lekérése innen: %s\n", path.c_str());
-  reconnectToFirebase();
+  
 
   if (Firebase.RTDB.getJSON(&fbdo, path.c_str()))
   {
@@ -80,6 +80,7 @@ bool getUserData(String userId)
   else
   {
     handleFirebaseError(fbdo.errorReason());
+    reconnectToFirebase();
     return false;
   }
   return false;
@@ -139,12 +140,12 @@ void firebaseConfig()
 {
   config.api_key = API_KEY;
   config.database_url = DATABASE_URL;
-  auth.user.email = USER_EMAIL;
-  auth.user.password = USER_PASSWORD;
+  //auth.user.email = USER_EMAIL;
+  //auth.user.password = USER_PASSWORD;
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  if (Firebase.signUp(&config, &auth, USER_EMAIL, USER_EMAIL))
+  if (Firebase.signUp(&config, &auth, "", ""))
   {
     Serial.println("Sikeres bejelentkezés!");
     Serial.print("ID Token: ");
