@@ -7,7 +7,10 @@
 #include <rfidConf.h>
 #include <wifiConf.h>
 #include <firebaseConf.h>
+//#include <otaConf.h>
 #include <buzzer.h>
+
+bool wififlag = false;
 
 void setup(void)
 {
@@ -26,10 +29,14 @@ void setup(void)
 
   SPI.begin();
   rfidConfig();
+  //otaConf();
 }
 
 void loop(void)
 {
+
+  //ArduinoOTA.handle();
+
   /*if (!Firebase.RTDB.readStream(&fbdo)) {
      Serial.print("Stream olvasási hiba: ");
      Serial.println(fbdo.errorReason());
@@ -40,13 +47,16 @@ void loop(void)
   usedSSID = WiFi.SSID();
   if (wifiStatus)
   {
+    wififlag = true;
     mainfunc();
   }
   else
   {
-    Serial.println("WiFi connection error");
-    Serial.println("Reconnecting...");
-
-    reconnectWIFIDisp();
+    if (wififlag)
+    {
+      Serial.println("Reconnecting...");
+      reconnectWIFIDisp();
+      wififlag = false;
+    }
   }
 }
