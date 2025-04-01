@@ -33,10 +33,32 @@ void faildPurchase()
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
   u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
-
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(3, 0);
   u8x8.println("Nincs kredit: ");
   u8x8.println(userData.credit);
   Serial.println("Nincs kredit");
+}
+
+void noCard(){
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_open_iconic_check_4x4);
+  u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(3, 0);
+  u8x8.println("Nem regisztrált: ");
+  u8x8.println(userData.uid);
+  Serial.println("Nincs ilyen kártya");
+}
+
+void rtdbError(){
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_open_iconic_check_4x4);
+  u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(3, 0);
+  u8x8.println("RTDB error!");
+  Serial.println("RTDB error");
 }
 
 void mainDisp()
@@ -71,7 +93,6 @@ void reconnectWIFIDisp()
 {
   u8x8.clearDisplay();
   u8x8.setCursor(0, 0);
-  u8x8.println("WiFi connection error");
   u8x8.println("Reconnecting...");
 }
 
