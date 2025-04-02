@@ -58,6 +58,7 @@ bool getUserData(String userId)
   if (Firebase.RTDB.getInt(&fbdo, path.c_str()))
   {
     userData.credit = fbdo.intData();
+    userData.uid=userId;
     Serial.printf("Credit sikeresen lekérve: %d\n", userData.credit);
     return true;
   }
