@@ -66,7 +66,7 @@ void mainfunc()
 
   if (!digitalRead(mIN) && !cardUID.isEmpty())
   {
-    if (getUserData(cardUID))
+    if (getUserData(userData.uid))
     {
       if (minus(userData.credit, price, loanMax, userData.loan))
       {
