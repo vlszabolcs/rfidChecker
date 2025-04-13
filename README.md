@@ -1,0 +1,1 @@
+This project aims to create an RFID-based coin emulator module for the Saeco Royal Office coffee machine. The device allows the machine to identify users via RFID cards and, based on their credit balance, either authorize or deny coffee dispensing.
