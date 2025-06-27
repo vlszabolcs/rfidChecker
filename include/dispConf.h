@@ -69,6 +69,14 @@ void mainDisp()
   u8x8.println("Fizess!");
 }
 
+void freeModeDisp()
+{
+  u8x8.clearDisplay();
+  u8x8.setFont(u8x8_font_chroma48medium8_r);
+  u8x8.setCursor(4, 3);
+  u8x8.println("FREE!");
+}
+
 void waitingPurchase()
 {
 

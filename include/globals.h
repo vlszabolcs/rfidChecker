@@ -15,6 +15,9 @@ struct
 
 int price = 100;
 int loanMax = -500;
+bool isFree= false;
+
+int dstOffset = 1;
 
 bool wifiStatus = false;
 String usedSSID = "";

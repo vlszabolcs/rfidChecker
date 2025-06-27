@@ -26,6 +26,8 @@ void setup(void)
   digitalWrite(buzzer, 0);
 
   firebaseConfig();
+  getPrice();
+  getFreeStatus();
 
   SPI.begin();
   rfidConfig();

@@ -31,6 +31,7 @@ void checkSign();
 void waitingPurchase();
 void faildPurchase(); 
 void mainDisp();
+void freeModeDisp();
 void logUserAction(String userId, int action, int remainingCredit);
 
 bool flagMain = true;
@@ -51,12 +52,24 @@ void writeCredit()
   digitalWrite(mOut, 1);
 }
 
-void mainfunc()
-{
+void freeMode() {
+  if (!digitalRead(mIN)) { 
+    writeCredit(); 
+    delay(100); 
+    freeModeDisp();
+    while (digitalRead(mIN)) { 
+      waitingPurchase(); 
+
+    }
+    logUserAction("0", 4, 0); 
+    Serial.println("Log created for free mode purchase.");
+  }
+}
+
+void normalMode() {
   String cardUID = getUID();
 
-  if (flagMain)
-  {
+  if (flagMain) {
     Serial.println("Waiting for card...");
     mainDisp();
     flagMain = false;
@@ -64,12 +77,9 @@ void mainfunc()
 
   waitingPurchase();
 
-  if (!digitalRead(mIN) && !cardUID.isEmpty())
-  {
-    if (getUserData(userData.uid))
-    {
-      if (minus(userData.credit, price, loanMax, userData.loan))
-      {
+  if (!digitalRead(mIN) && !cardUID.isEmpty()) {
+    if (getUserData(userData.uid)) {
+      if (minus(userData.credit, price, loanMax, userData.loan)) {
         userData.credit -= price;
         timeClient.update();
         userData.time = timeClient.getEpochTime();
@@ -77,33 +87,33 @@ void mainfunc()
         logUserAction(userData.uid, 0, userData.credit);
         bool flag = true;
 
-        if (!digitalRead(mIN))
-        {
+        if (!digitalRead(mIN)) {
           writeCredit();
           delay(100);
-          while (digitalRead(mIN))
-          {
-            if (flag)
-            {
+          while (digitalRead(mIN)) {
+            if (flag) {
               successPurchase();
               flag = false;
             }
           }
         }
         flagMain = true;
-      }
-      else
-      {
+      } else {
         faildPurchase();
         logUserAction(userData.uid, 1, userData.credit);
         flagMain = true;
         delay(1000);
       }
-    }
-    else
-    {
+    } else {
       flagMain = true;
     }
   }
-  
+}
+
+void mainfunc() {
+  if (isFree) {
+    freeMode(); 
+  } else {
+    normalMode();
+  }
 }

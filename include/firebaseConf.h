@@ -141,3 +141,35 @@ void firebaseConfig()
   config.token_status_callback = tokenStatusCallback;
   config.max_token_generation_retry = 5;
 }
+
+void getPrice() {
+  String path = String(confPath) ;
+  path += "price";
+  Serial.printf("Price lekérése innen: %s\n", path.c_str());
+  reconnectToFirebase();
+
+  if (Firebase.RTDB.getInt(&fbdo, path.c_str())) {
+    price = fbdo.intData(); 
+    Serial.printf("Price sikeresen lekérve: %d\n", price);
+  } else {
+    handleFirebaseError(fbdo.errorReason());
+    price = -1; 
+    Serial.println("Price lekérdezése sikertelen, alapértelmezett érték: -1");
+  }
+}
+
+void getFreeStatus() {
+  String path = confPath;
+  path += "free"; 
+  Serial.printf("Free státusz lekérése innen: %s\n", path.c_str());
+  reconnectToFirebase();
+
+  if (Firebase.RTDB.getBool(&fbdo, path.c_str())) {
+    isFree = fbdo.boolData();
+    Serial.printf("Free státusz sikeresen lekérve: %s\n", free ? "true" : "false");
+  } else {
+    handleFirebaseError(fbdo.errorReason());
+    isFree = false; 
+    Serial.println("Free státusz lekérdezése sikertelen, alapértelmezett érték: false");
+  }
+}
