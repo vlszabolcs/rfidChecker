@@ -3,6 +3,7 @@
 
 /*00 purchase
   01 faild purchase
+  03 free purchase
 
   10 modify credit
   11 modify loan

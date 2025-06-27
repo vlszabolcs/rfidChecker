@@ -32,7 +32,7 @@ void faildPurchase()
 {
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.drawGlyph(6, 2, 'B'); 
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("Nincs kredit: ");
@@ -43,7 +43,7 @@ void faildPurchase()
 void noCard(){
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.drawGlyph(6, 2, 'B'); 
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("Nem regisztrált: ");
@@ -54,7 +54,7 @@ void noCard(){
 void rtdbError(){
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.drawGlyph(6, 2, 'B'); 
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("RTDB error!");

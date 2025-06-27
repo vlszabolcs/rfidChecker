@@ -2,12 +2,11 @@
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 
-// Firebase objektumok
+
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-// Token frissítése
 void reconnectToFirebase()
 {
   if (Firebase.isTokenExpired())
@@ -17,7 +16,7 @@ void reconnectToFirebase()
   }
 }
 
-// Firebase hibakezelés
+
 void handleFirebaseError(String errorReason)
 {
   if (errorReason == "path not exist")
@@ -35,7 +34,7 @@ void handleFirebaseError(String errorReason)
   }
 }
 
-// Időbélyeg formázása
+
 String formatTimestamp(int timestamp)
 {
   time_t rawtime = timestamp;
@@ -45,7 +44,7 @@ String formatTimestamp(int timestamp)
   return String(buffer);
 }
 
-// Felhasználói adatok lekérdezése
+
 bool getUserData(String userId)
 {
   String path = userPath;
@@ -68,7 +67,7 @@ bool getUserData(String userId)
   }
 }
 
-// Felhasználói adatok frissítése
+
 void updateUserData(String userId)
 {
   String path = userPath;
@@ -93,7 +92,7 @@ void updateUserData(String userId)
   }
 }
 
-// Felhasználói műveletek naplózása
+
 void logUserAction(String userId, int action, int remainingCredit)
 {
   String timestamp = String(timeClient.getEpochTime());
@@ -117,7 +116,7 @@ void logUserAction(String userId, int action, int remainingCredit)
   }
 }
 
-// Firebase konfiguráció inicializálása
+
 void firebaseConfig()
 {
   config.api_key = API_KEY;

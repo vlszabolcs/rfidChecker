@@ -16,9 +16,10 @@ The aim of the project is to replace an [NRI G-13.mft](https://animo.eu/wp-conte
 - Make log to Firebase
 - Trigger coffee machine (2xpin6)
 - Show remaining credit
+- Read config form Firebase (free (bool), coffee price (number)),
 
 To Do:
-- Read config form Firebase (free (bool), coffee price (number), loan (bool))
+- loan (bool), loan price (number)
 - Replace anonymous login to the Firebase
 
 A [Firebase Admin](https://github.com/vlszabolcs/firebaseUI) app was created to manage users and credits (Under construction!!!)
