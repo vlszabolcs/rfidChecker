@@ -7,7 +7,7 @@ void checkSign()
   Serial.println("RFID: OK");
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'A'); // Replace 'A' with the appropriate character code for the glyph
+  u8x8.drawGlyph(6, 2, 'C'); // Replace 'A' with the appropriate character code for the glyphs
 }
 
 void successPurchase()
