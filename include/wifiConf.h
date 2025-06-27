@@ -49,7 +49,36 @@ void wifiConfig()
   }
 }
 
+int determineDSTOffset(time_t utcEpoch) {
+    struct tm *timeinfo;
+    time_t rawtime = utcEpoch;
+    timeinfo = gmtime(&rawtime);
+    int year = timeinfo->tm_year + 1900;
+
+    // DST start: march last sunday 2:00 (CET -> CEST)
+    struct tm lastMarchSunday = {0, 0, 2, 31, 2, year - 1900};
+    mktime(&lastMarchSunday);
+    while (lastMarchSunday.tm_wday != 0) {
+        lastMarchSunday.tm_mday--;
+        mktime(&lastMarchSunday);
+    }
+    time_t dstStart = mktime(&lastMarchSunday);
+
+    // DST end: october last sunday 3:00 (CEST -> CET)
+    struct tm lastOctoberSunday = {0, 0, 3, 31, 9, year - 1900};
+    mktime(&lastOctoberSunday);
+    while (lastOctoberSunday.tm_wday != 0) {
+        lastOctoberSunday.tm_mday--;
+        mktime(&lastOctoberSunday);
+    }
+    time_t dstEnd = mktime(&lastOctoberSunday);
+
+    return (utcEpoch >= dstStart && utcEpoch < dstEnd) ? 2 : 1; // CEST:2, CET:1
+}
+
 void ntpConf()
 {
   timeClient.begin();
+  timeClient.update();
+  dstOffset = determineDSTOffset(timeClient.getEpochTime());
 }

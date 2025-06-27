@@ -21,7 +21,7 @@
   */
 
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 7200, 60000);
+NTPClient timeClient(ntpUDP, "europe.pool.ntp.org", 0, 60000);
 
 String getUID();
 bool getUserData(String uid);

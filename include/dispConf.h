@@ -79,10 +79,14 @@ void freeModeDisp()
 
 void waitingPurchase()
 {
-
-  static String lastTime = ""; // Tárolja az előzőleg megjelenített időt
+  static String lastTime = "";
   timeClient.update();
-  String currentTime = timeClient.getFormattedTime();
+  time_t localTime = timeClient.getEpochTime() + dstOffset * 3600;
+
+  struct tm *timeinfo = localtime(&localTime);
+  char timeStr[9];
+  sprintf(timeStr, "%02d:%02d:%02d", timeinfo->tm_hour, timeinfo->tm_min, timeinfo->tm_sec);
+  String currentTime = String(timeStr);
 
   if (currentTime != lastTime)
   {
