@@ -8,6 +8,8 @@ MFRC522 rfid(SS_PIN, RST_PIN);   // Create MFRC522 instance.
 
 MFRC522::MIFARE_Key key;
 
+void beepAccept();
+void beepError();
 
 String getUID() {
   // Check if a card is present
@@ -32,6 +34,7 @@ String getUID() {
   uid.toUpperCase(); // Convert to uppercase
   rfid.PICC_HaltA(); // Halt the card
   checkSign();
+  beepAccept();
   userData.uid = uid;
   return uid;
 }

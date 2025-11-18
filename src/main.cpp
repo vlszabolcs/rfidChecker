@@ -23,7 +23,8 @@ void setup(void)
   pinMode(mOut, OUTPUT);
   pinMode(buzzer, OUTPUT);
   digitalWrite(mOut, 1);
-  digitalWrite(buzzer, 0);
+  void beepInit();
+  beepAccept();
 
   firebaseConfig();
   getPrice();

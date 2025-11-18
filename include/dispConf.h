@@ -1,6 +1,7 @@
 #include <U8x8lib.h>
 
 U8X8_SH1106_128X64_NONAME_HW_I2C u8x8(U8X8_PIN_NONE);
+void beepError();
 
 void checkSign()
 {
@@ -37,6 +38,7 @@ void faildPurchase()
   u8x8.setCursor(3, 0);
   u8x8.println("Nincs kredit: ");
   u8x8.println(userData.credit);
+  beepError();
   Serial.println("Nincs kredit");
 }
 
@@ -48,6 +50,7 @@ void noCard(){
   u8x8.setCursor(3, 0);
   u8x8.println("Nem regisztrált: ");
   u8x8.println(userData.uid);
+  beepError();
   Serial.println("Nincs ilyen kártya");
 }
 
@@ -58,6 +61,7 @@ void rtdbError(){
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("RTDB error!");
+  beepError();
   Serial.println("RTDB error");
 }
 

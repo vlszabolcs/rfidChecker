@@ -2,7 +2,7 @@
 #include "addons/TokenHelper.h"
 #include "addons/RTDBHelper.h"
 
-
+void beepError();
 FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
@@ -63,6 +63,7 @@ bool getUserData(String userId)
   else
   {
     handleFirebaseError(fbdo.errorReason());
+    beepError();
     return false;
   }
 }
