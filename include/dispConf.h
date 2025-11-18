@@ -40,6 +40,7 @@ void faildPurchase()
   u8x8.println(userData.credit);
   beepError();
   Serial.println("Nincs kredit");
+
 }
 
 void noCard(){

@@ -20,6 +20,7 @@ String getUID() {
   // Read the card
   if (!rfid.PICC_ReadCardSerial()) {
     return ""; // Failed to read card
+    beepError();
   }
 
   // Convert UID to string
