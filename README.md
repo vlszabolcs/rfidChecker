@@ -1,4 +1,5 @@
 Working demo : https://youtu.be/FtIDbL3Zp9k?si=jd4PyK9v06od8FpE
+
 The aim of the project is to replace an [NRI G-13.mft](https://animo.eu/wp-content/uploads/2023/09/G13mft_par_GB.pdf) coin validator with an RFID-based coin emulator for a Saeco Royal Office coffee machine. The device allows the machine to identify users via RFID cards and based on their credit balance, either authorize or deny coffee dispensing. User data, config data and logs are stored in the Firebase Real Rime Database.
 
 <ins>Tools:</ins>
