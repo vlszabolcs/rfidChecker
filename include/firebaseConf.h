@@ -16,7 +16,6 @@ void reconnectToFirebase()
   }
 }
 
-
 void handleFirebaseError(String errorReason)
 {
   if (errorReason == "path not exist")
@@ -34,7 +33,6 @@ void handleFirebaseError(String errorReason)
   }
 }
 
-
 String formatTimestamp(int timestamp)
 {
   time_t rawtime = timestamp;
@@ -44,8 +42,7 @@ String formatTimestamp(int timestamp)
   return String(buffer);
 }
 
-
-bool getUserData(String userId)
+/*bool getUserData(String userId)
 {
   String path = userPath;
   path += userId;
@@ -66,8 +63,36 @@ bool getUserData(String userId)
     beepError();
     return false;
   }
-}
 
+}*/
+
+bool getUserData(String userId)
+{
+  String path = userPath;
+  path += userId;
+
+  Serial.printf("Felhasználói adatok lekérése innen: %s\n", path.c_str());
+  reconnectToFirebase();
+
+  if (Firebase.RTDB.getJSON(&fbdo, path.c_str()))
+  {
+    FirebaseJson &json = fbdo.to<FirebaseJson>();
+    FirebaseJsonData jsonData;
+
+    if (json.get(jsonData, "loan"))
+      userData.loan = jsonData.intValue;
+    if (json.get(jsonData, "credit"))
+      userData.credit = jsonData.intValue;
+
+    return true;
+  }
+  else
+  {
+    handleFirebaseError(fbdo.errorReason());
+    beepError();
+    return false;
+  }
+}
 
 void updateUserData(String userId)
 {
@@ -93,7 +118,6 @@ void updateUserData(String userId)
   }
 }
 
-
 void logUserAction(String userId, int action, int remainingCredit)
 {
   String timestamp = String(timeClient.getEpochTime());
@@ -117,7 +141,6 @@ void logUserAction(String userId, int action, int remainingCredit)
   }
 }
 
-
 void firebaseConfig()
 {
   config.api_key = API_KEY;
@@ -127,7 +150,7 @@ void firebaseConfig()
   Firebase.begin(&config, &auth);
   Firebase.reconnectWiFi(true);
 
-  if (Firebase.signUp(&config, &auth, "", ""))
+  if (Firebase.signUp(&config, &auth, USER_EMAIL, USER_PASSWORD))
   {
     Serial.println("Sikeres bejelentkezés!");
     Serial.print("ID Token: ");
@@ -142,34 +165,42 @@ void firebaseConfig()
   config.max_token_generation_retry = 5;
 }
 
-void getPrice() {
-  String path = String(confPath) ;
+void getPrice()
+{
+  String path = String(confPath);
   path += "price";
   Serial.printf("Price lekérése innen: %s\n", path.c_str());
   reconnectToFirebase();
 
-  if (Firebase.RTDB.getInt(&fbdo, path.c_str())) {
-    price = fbdo.intData(); 
+  if (Firebase.RTDB.getInt(&fbdo, path.c_str()))
+  {
+    price = fbdo.intData();
     Serial.printf("Price sikeresen lekérve: %d\n", price);
-  } else {
+  }
+  else
+  {
     handleFirebaseError(fbdo.errorReason());
-    price = -1; 
+    price = -1;
     Serial.println("Price lekérdezése sikertelen, alapértelmezett érték: -1");
   }
 }
 
-void getFreeStatus() {
+void getFreeStatus()
+{
   String path = confPath;
-  path += "free"; 
+  path += "free";
   Serial.printf("Free státusz lekérése innen: %s\n", path.c_str());
   reconnectToFirebase();
 
-  if (Firebase.RTDB.getBool(&fbdo, path.c_str())) {
+  if (Firebase.RTDB.getBool(&fbdo, path.c_str()))
+  {
     isFree = fbdo.boolData();
     Serial.printf("Free státusz sikeresen lekérve: %s\n", free ? "true" : "false");
-  } else {
+  }
+  else
+  {
     handleFirebaseError(fbdo.errorReason());
-    isFree = false; 
+    isFree = false;
     Serial.println("Free státusz lekérdezése sikertelen, alapértelmezett érték: false");
   }
 }

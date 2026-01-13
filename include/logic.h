@@ -37,9 +37,9 @@ void logUserAction(String userId, int action, int remainingCredit);
 
 bool flagMain = true;
 
-bool minus(int credit, int price, int loanMax, bool loan)
+bool minus(int credit, bool loan)
 {
-  return (credit >= price) || (loan && credit > loanMax);
+  return (credit > loan);
 }
 
 void writeCredit()
@@ -80,7 +80,7 @@ void normalMode() {
 
   if (!digitalRead(mIN) && !cardUID.isEmpty()) {
     if (getUserData(userData.uid)) {
-      if (minus(userData.credit, price, loanMax, userData.loan)) {
+      if (minus(userData.credit, userData.loan)) {
         userData.credit -= price;
         timeClient.update();
         userData.time = timeClient.getEpochTime();
