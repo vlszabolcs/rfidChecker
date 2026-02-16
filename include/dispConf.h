@@ -33,20 +33,20 @@ void faildPurchase()
 {
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); 
+  u8x8.drawGlyph(6, 2, 'B');
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("Nincs kredit: ");
   u8x8.println(userData.credit);
   beepError();
   Serial.println("Nincs kredit");
-
 }
 
-void noCard(){
+void noCard()
+{
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); 
+  u8x8.drawGlyph(6, 2, 'B');
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("Nem regisztrált: ");
@@ -55,10 +55,11 @@ void noCard(){
   Serial.println("Nincs ilyen kártya");
 }
 
-void rtdbError(){
+void rtdbError()
+{
   u8x8.clearDisplay();
   u8x8.setFont(u8x8_font_open_iconic_check_4x4);
-  u8x8.drawGlyph(6, 2, 'B'); 
+  u8x8.drawGlyph(6, 2, 'B');
   u8x8.setFont(u8x8_font_chroma48medium8_r);
   u8x8.setCursor(3, 0);
   u8x8.println("RTDB error!");
