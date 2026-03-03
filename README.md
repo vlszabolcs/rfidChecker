@@ -22,7 +22,7 @@ The documentation for the [NRI G-13.mft](https://animo.eu/wp-content/uploads/202
 #### Oscilloscope Observations
 Measurements on the Saeco Royal Office revealed specific behaviors:
 
-- Inhibit Logic: The machine pulls the Inhibit pin High only during error states. In normal operation, it stays Low. This allows us to simplify the code by skipping the timed Presignal handshake.
+- Inhibit Logic: The machine sets the inhibit pin high after credit entry and in case of machine error. Therefore, the timed presignal handling is not necessary and multiple credit entries can be handled.
 - Voltage Levels: The coffee machine pulls the COIN lines to 5V. Because the system uses Active Low logic, the ESP32 can pull these lines to Ground (0V) directly. No level shifting is required for the output, even though the ESP32 operates at 3.3V.
 - Power Supply: The 12V measured on the VCC line is regulated down to 5V to power the ESP32 and peripherals.
 
@@ -45,8 +45,5 @@ Measurements on the Saeco Royal Office revealed specific behaviors:
 - Show remaining credit
 - Read config form Firebase (free (bool), coffee price (number)),
 
-To Do:
-- loan (bool), loan price (number)
-- Replace anonymous login to the Firebase
 
 A [Firebase Admin](https://github.com/vlszabolcs/firebaseUI) app was created to manage users and credits (Under construction!!!)
