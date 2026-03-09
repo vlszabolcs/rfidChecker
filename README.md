@@ -46,4 +46,4 @@ Measurements on the Saeco Royal Office revealed specific behaviors:
 - Read config form Firebase (free (bool), coffee price (number)),
 
 
-A [Firebase Admin](https://github.com/vlszabolcs/firebaseUI) app was created to manage users and credits (Under construction!!!)
+A [Coffee Admin](https://github.com/vlszabolcs/coffeeAdmin) app was created to manage users and credits (Under construction!!!)
